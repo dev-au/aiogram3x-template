@@ -3,10 +3,8 @@ from loguru import logger
 import asyncio
 
 
-error_router = Router()
 
-
-@error_router.error()
+@dp.error()
 async def error_handler(event: types.ErrorEvent):
     logger.add("logs.txt")
     logger.exception(event.exception)
@@ -14,6 +12,3 @@ async def error_handler(event: types.ErrorEvent):
     file = types.FSInputFile("logs.txt")
     await asyncio.sleep(0.05)
     await bot.send_document(chat_id=ADMINS[0], document=file)
-
-
-dp.include_router(error_router)
